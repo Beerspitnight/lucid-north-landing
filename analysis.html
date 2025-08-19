@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis of Substitute Coverage Efficiency</title>
+    <p>&copy 2025 Lucid North LLC - All Rights Reserved</p>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js for interactive charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    
+    <!-- Google Fonts for better typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Use the Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* A slightly darker gray background */
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+        /* Custom styles for active button */
+        .btn-active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-inactive {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-gray-900">Analysis of Substitute Coverage Efficiency</h1>
+            <p class="mt-2 text-lg text-gray-600">An interactive report on the time required to arrange substitute teachers, based on all survey responses.</p>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="py-10">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-16">
+
+            <!-- Section 1: Main Interactive Chart -->
+            <section>
+                <div class="bg-white p-6 rounded-lg shadow-xl">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">What Factors Influence Coverage Time?</h2>
+                            <p class="mt-1 text-gray-600">Select a category below to see how it impacts the average time spent on coverage.</p>
+                        </div>
+                        <div id="filter-buttons" class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                            <button data-filter="ams" class="btn-active px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200">System</button>
+                            <button data-filter="scheduling" class="btn-inactive px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200">Scheduling</button>
+                            <button data-filter="level" class="btn-inactive px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200">School Level</button>
+                            <button data-filter="sourcing" class="btn-inactive px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200">Sourcing</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mainBreakdownChart"></canvas>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 2: Teacher Count vs. Time Scatter Plots -->
+            <section>
+                 <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">Does School Size Affect Efficiency?</h2>
+                    <p class="mt-1 text-gray-600">Visualizing the relationship between teacher count and coverage time.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-4 text-gray-900">Tuesday Coverage Time vs. Teacher Count</h3>
+                        <div class="chart-container">
+                            <canvas id="tuesdayScatterChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-4 text-gray-900">Friday Coverage Time vs. Teacher Count</h3>
+                        <div class="chart-container">
+                            <canvas id="fridayScatterChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-white mt-16">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+            <p>&copy; 2025 Lucid North LLC. Data updated as of August 19, 2025.</p>
+            <p class="mt-2">
+                <a href="mailto:admin@Lucid-North.com" class="text-blue-600 hover:underline">admin@Lucid-North.com</a> | 
+                <a href="https://www.Lucid-North.com" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">www.Lucid-North.com</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA PREPARATION ---
+        // This section contains all survey responses from the JSON file, cleaned and ready for visualization.
+        const rawSurveyData = [
+          {"state": "GA", "school_level": "Middle", "student_count": "630", "teacher_count": "60", "absence_management_system": "RedRover (formerly Frontline) ", "substitute_sourcing": "External Service", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "5 minutes ", "time_to_complete_friday": "15 minutes "},
+          {"state": "VA", "school_level": "Elementary", "student_count": "480", "teacher_count": "24", "absence_management_system": "SmartFind Express", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "30 minutes "},
+          {"state": "VA", "school_level": "Elementary", "student_count": "480", "teacher_count": "24", "absence_management_system": "SmartFind Express", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "30 kinutes"},
+          {"state": "AK", "school_level": "Elementary", "student_count": "540", "teacher_count": "30", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "40 minutes", "time_to_complete_friday": "50 minutes"},
+          {"state": "KS", "school_level": "Elementary", "student_count": "570", "teacher_count": "28", "absence_management_system": "Frontline", "substitute_sourcing": "Combination", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "Not sure yet I’m new", "time_to_complete_friday": "Not sure yet"},
+          {"state": "CA", "school_level": "Elementary", "student_count": "500", "teacher_count": "", "absence_management_system": "EARS", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "1 minute ", "time_to_complete_friday": "1 minute "},
+          {"state": "MD", "school_level": "Middle", "student_count": "800", "teacher_count": "100", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "30 minutes ", "time_to_complete_friday": "44 minutes "},
+          {"state": "TX", "school_level": "High", "student_count": "2820", "teacher_count": "220", "absence_management_system": "Frontlone", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "45", "time_to_complete_friday": "45"},
+          {"state": "RI", "school_level": "Middle", "student_count": "600", "teacher_count": "60", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "10 minutes ", "time_to_complete_friday": "20 minutes"},
+          {"state": "CA", "school_level": "High", "student_count": "1400", "teacher_count": "25", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "10min", "time_to_complete_friday": "15min"},
+          {"state": "UT", "school_level": "High", "student_count": "1100", "teacher_count": "60", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Separate Locations", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "30 minutes"},
+          {"state": "TN", "school_level": "Middle", "student_count": "650", "teacher_count": "40", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "10 minutes ", "time_to_complete_friday": "20 minutes "},
+          {"state": "CA", "school_level": "Elementary", "student_count": "325", "teacher_count": "", "absence_management_system": "", "substitute_sourcing": "Combination", "internal_coverage": "Yes", "notification_system": "Multiple Systems", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "5 min", "time_to_complete_friday": "15 min"},
+          {"state": "AL", "school_level": "Elementary", "student_count": "210", "teacher_count": "25", "absence_management_system": "Red Rover", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "There’s no such thing as “a typical Tuesday” morning as a school administrator.", "time_to_complete_friday": "There’s no such thing as “a typical Friday” morning as a school administrator."},
+          {"state": "WI", "school_level": "Middle", "student_count": "725", "teacher_count": "75", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "20", "time_to_complete_friday": "45"},
+          {"state": "IN", "school_level": "Middle", "student_count": "600", "teacher_count": "45", "absence_management_system": "", "substitute_sourcing": "Combination", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "0", "time_to_complete_friday": "0"},
+          {"state": "AZ", "school_level": "Elementary", "student_count": "750", "teacher_count": "40", "absence_management_system": "Frontline", "substitute_sourcing": "Combination", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "10", "time_to_complete_friday": "25"},
+          {"state": "OH", "school_level": "High", "student_count": "350", "teacher_count": "30", "absence_management_system": "N/A", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "30 minutes"},
+          {"state": "CA", "school_level": "High", "student_count": "75", "teacher_count": "16", "absence_management_system": "None", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "30 minutes"},
+          {"state": "NY", "school_level": "Elementary", "student_count": "420", "teacher_count": "30", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Separate Locations", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "25 minutes"},
+          {"state": "FL", "school_level": "High", "student_count": "250", "teacher_count": "30", "absence_management_system": "None", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Multiple Systems", "scheduling_method": "Combination", "time_to_complete_tuesday": "30-45 minutes", "time_to_complete_friday": "30-45 minutes"},
+          {"state": "MA", "school_level": "High", "student_count": "950", "teacher_count": "70", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "45 minutes"},
+          {"state": "KY", "school_level": "Middle", "student_count": "825", "teacher_count": "40", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "10 minutes", "time_to_complete_friday": "15 minutes "},
+          {"state": "CA_INTL", "school_level": "Elementary", "student_count": "400", "teacher_count": "25", "absence_management_system": "Apply to Education (Easy Connect)", "substitute_sourcing": "Combination", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "5 minutes", "time_to_complete_friday": "1 hour"},
+          {"state": "TX", "school_level": "High", "student_count": "1900", "teacher_count": "180", "absence_management_system": "Frontline ", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "No idea—-job of one of the secretaries. She only contacts admin if there is a lack of coverage", "time_to_complete_friday": "Same as 10"},
+          {"state": "NJ", "school_level": "High", "student_count": "70", "teacher_count": "", "absence_management_system": "", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "10 minutes", "time_to_complete_friday": "15 minutes"},
+          {"state": "UK_INTL", "school_level": "High", "student_count": "1800", "teacher_count": "90", "absence_management_system": "Bromcom (MIS)", "substitute_sourcing": "Combination", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "30 minutes or so.  The main time sinks are a) confirming cover is available (phone) and b) ensuring cover work has been set and it accessible to the cover person.", "time_to_complete_friday": "30 minutes or so."},
+          {"state": "TX", "school_level": "High", "student_count": "111", "teacher_count": "", "absence_management_system": "", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "10-15 minutes ", "time_to_complete_friday": ""},
+          {"state": "MO", "school_level": "High", "student_count": "1350", "teacher_count": "77", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "30 minutes"},
+          {"state": "CO", "school_level": "Middle", "student_count": "574", "teacher_count": "55", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Separate Locations", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "15 mins if there are not any unexpected absences with no subs.", "time_to_complete_friday": "45 mins."},
+          {"state": "VA", "school_level": "Elementary", "student_count": "750", "teacher_count": "", "absence_management_system": "Smartfind", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "20 minutes"},
+          {"state": "AZ", "school_level": "High", "student_count": "2500", "teacher_count": "101", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Multiple Systems", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "45 minutesp"},
+          {"state": "IA", "school_level": "Elementary", "student_count": "320", "teacher_count": "25", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "45 minutes"},
+          {"state": "OH", "school_level": "Middle", "student_count": "600", "teacher_count": "50", "absence_management_system": "Frontline ", "substitute_sourcing": "Combination", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "10 minutes max", "time_to_complete_friday": "10 minutes max "},
+          {"state": "VA", "school_level": "High", "student_count": "1000", "teacher_count": "80", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "0 minutes (secretary does it)", "time_to_complete_friday": "0 minutes "},
+          {"state": "WA", "school_level": "Middle", "student_count": "620", "teacher_count": "35", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Multiple Systems", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "45 minutes ", "time_to_complete_friday": "45 minutes "},
+          {"state": "WA", "school_level": "Middle", "student_count": "620", "teacher_count": "35", "absence_management_system": "", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Multiple Systems", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "45 minutes ", "time_to_complete_friday": "45 minutes "},
+          {"state": "MD", "school_level": "High", "student_count": "3000", "teacher_count": "174", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "30 minutes plus", "time_to_complete_friday": "45-60"},
+          {"state": "CA", "school_level": "High", "student_count": "55", "teacher_count": "6", "absence_management_system": "Frontline/aesop ", "substitute_sourcing": "Combination", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "10-15 mins ", "time_to_complete_friday": "20 mins "},
+          {"state": "CT", "school_level": "Elementary", "student_count": "300", "teacher_count": "40", "absence_management_system": "", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "10 minutes ", "time_to_complete_friday": "10 minutes "},
+          {"state": "CA", "school_level": "Middle", "student_count": "800", "teacher_count": "20", "absence_management_system": "PowerSchool SmartFind Express", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Separate Locations", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "the entire day.", "time_to_complete_friday": "the entire night."},
+          {"state": "CA", "school_level": "High", "student_count": "400", "teacher_count": "22", "absence_management_system": "Scoot Subbing agency", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "5 minutes", "time_to_complete_friday": "5 minutes"},
+          {"state": "MO", "school_level": "Elementary", "student_count": "500", "teacher_count": "28", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "10 minutes", "time_to_complete_friday": "20 minutes"},
+          {"state": "WA", "school_level": "High", "student_count": "1600", "teacher_count": "80", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "10 min", "time_to_complete_friday": "15 min"},
+          {"state": "NC", "school_level": "High", "student_count": "1100", "teacher_count": "75", "absence_management_system": "", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "20 minutes ", "time_to_complete_friday": "40 minutes "},
+          {"state": "PA", "school_level": "High", "student_count": "300", "teacher_count": "33", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "25 minutes"},
+          {"state": "TX", "school_level": "High", "student_count": "2800", "teacher_count": "225", "absence_management_system": "SmartFind Express", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes ", "time_to_complete_friday": "15 minutes"},
+          {"state": "OH", "school_level": "Middle", "student_count": "600", "teacher_count": "40", "absence_management_system": "", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "50 minutes ", "time_to_complete_friday": "1.5 hours"},
+          {"state": "AK", "school_level": "Elementary", "student_count": "2", "teacher_count": "2", "absence_management_system": "Genesis", "substitute_sourcing": "External Service", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "60"}
+        ];
+
+        // Helper function to parse messy time strings into a consistent number of minutes.
+        // It handles ranges by taking the average, and text by returning null.
+        const parseTime = (timeStr) => {
+            if (!timeStr || typeof timeStr !== 'string') return null;
+            
+            const cleanedTime = timeStr.toLowerCase().replace(/,/g, '');
+            
+            if (cleanedTime.includes('hour')) {
+                const hours = parseFloat(cleanedTime.replace(/hours?/, '').trim());
+                return isNaN(hours) ? null : hours * 60;
+            }
+
+            const numbers = cleanedTime.match(/\d+(\.\d+)?/g);
+            if (!numbers) return null;
+
+            const totalMinutes = numbers.map(n => parseFloat(n)).reduce((acc, val) => acc + val, 0);
+            return totalMinutes / numbers.length;
+        };
+        
+        // Helper function to normalize the names of Absence Management Systems
+        const normalizeAms = (ams) => {
+            if (!ams) return 'Other/Unknown';
+            const lowerAms = ams.toLowerCase();
+            if (lowerAms.includes('frontline') || lowerAms.includes('aesop') || lowerAms.includes('redrover') || lowerAms.includes('red rover')) {
+                return 'Frontline/AESOP';
+            }
+            if (lowerAms.includes('smartfind') || lowerAms.includes('smartfind express')) {
+                return 'SmartFind Express';
+            }
+            if (lowerAms.includes('genesis')) return 'Genesis';
+            if (lowerAms.includes('n/a') || lowerAms.includes('none')) return 'None';
+            return 'Other/Unknown';
+        };
+
+        // Process the raw data into a clean format for charting
+        const surveyData = rawSurveyData.map(d => ({
+            ams: normalizeAms(d.absence_management_system),
+            scheduling: d.scheduling_method || 'Unknown',
+            level: d.school_level || 'Unknown',
+            sourcing: d.substitute_sourcing || 'Unknown',
+            teachers: parseInt(d.teacher_count) || 0,
+            time_fri: parseTime(d.time_to_complete_friday),
+            time_tue: parseTime(d.time_to_complete_tuesday)
+        })).filter(d => d.time_tue !== null && d.time_fri !== null && d.teachers >= 0);
+
+
+        // --- CHART RENDERING LOGIC ---
+        
+        let mainChartInstance = null;
+        
+        // Function to calculate average times for a given category (e.g., 'ams', 'level')
+        const calculateAverages = (category) => {
+            const groups = {};
+            surveyData.forEach(d => {
+                const key = d[category];
+                if (!groups[key]) {
+                    groups[key] = { tue: [], fri: [], count: 0 };
+                }
+                groups[key].tue.push(d.time_tue);
+                groups[key].fri.push(d.time_fri);
+                groups[key].count++;
+            });
+
+            const labels = Object.keys(groups).sort();
+            const avgTue = labels.map(label => {
+                const sum = groups[label].tue.reduce((a, b) => a + b, 0);
+                return sum / groups[label].tue.length;
+            });
+            const avgFri = labels.map(label => {
+                const sum = groups[label].fri.reduce((a, b) => a + b, 0);
+                return sum / groups[label].fri.length;
+            });
+            const counts = labels.map(label => groups[label].count);
+
+            return { labels, avgTue, avgFri, counts };
+        };
+
+        // Function to update the main breakdown chart
+        const updateMainChart = (category) => {
+            const { labels, avgTue, avgFri, counts } = calculateAverages(category);
+            const ctx = document.getElementById('mainBreakdownChart').getContext('2d');
+
+            if (mainChartInstance) {
+                mainChartInstance.destroy();
+            }
+
+            mainChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.map((label, i) => `${label} (n=${counts[i]})`), // Add sample size to labels
+                    datasets: [
+                        {
+                            label: 'Avg Time Tuesday (min)',
+                            data: avgTue,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Avg Time Friday (min)',
+                            data: avgFri,
+                            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                            borderColor: 'rgba(16, 185, 129, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Average Minutes to Complete Coverage' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y.toFixed(1)} min`
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        // --- PAGE INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup filter button interactivity
+            const filterButtons = document.querySelectorAll('#filter-buttons button');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('btn-active');
+                        btn.classList.add('btn-inactive');
+                    });
+                    button.classList.add('btn-active');
+                    button.classList.remove('btn-inactive');
+                    updateMainChart(button.dataset.filter);
+                });
+            });
+
+            // Initial call to draw the main chart
+            updateMainChart('ams');
+
+            // --- Scatter Plot: Tuesday ---
+            const tueScatterCtx = document.getElementById('tuesdayScatterChart').getContext('2d');
+            new Chart(tueScatterCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Tuesday Data',
+                        data: surveyData.map(d => ({x: d.teachers, y: d.time_tue})),
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Number of Teachers' } },
+                        y: { title: { display: true, text: 'Time in Minutes' } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // --- Scatter Plot: Friday ---
+            const friScatterCtx = document.getElementById('fridayScatterChart').getContext('2d');
+            new Chart(friScatterCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Friday Data',
+                        data: surveyData.map(d => ({x: d.teachers, y: d.time_fri})),
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Number of Teachers' } },
+                        y: { title: { display: true, text: 'Time in Minutes' } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
