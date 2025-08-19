@@ -18,6 +18,13 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
+        .selection-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .selection-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -34,36 +41,33 @@
     <main class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-12">
 
-            <!-- Summary Section -->
-            <section class="bg-blue-600 text-white p-8 rounded-lg shadow-xl">
-                <h2 class="text-3xl font-bold">The Bottom Line</h2>
-                <p class="mt-2 text-blue-100 max-w-3xl">Our analysis, based on survey data and state-level salary benchmarks, reveals that school districts are spending thousands of dollars annually per school, just for Assistant Principals to manage daily substitute teacher scheduling. This is valuable administrative time that could be refocused on instructional leadership and student support.</p>
-                <div class="mt-6 text-center">
-                    <p class="text-lg text-blue-200">Average Annual Cost Across All Respondents:</p>
-                    <p id="average-cost" class="text-5xl font-bold tracking-tight">Calculating...</p>
-                </div>
-            </section>
-
-            <!-- Detailed Breakdown Table -->
+            <!-- Interactive Drilldown Section -->
             <section>
-                <h2 class="text-2xl font-bold text-center mb-6 text-gray-900">Annual Cost Breakdown by State and School Level</h2>
-                <div class="bg-white p-4 rounded-lg shadow-lg">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Level</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Median AP Salary</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg. Daily Time</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg. Friday Time</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-blue-100 text-blue-800">Estimated Annual Cost</th>
-                                </tr>
-                            </thead>
-                            <tbody id="cost-table-body" class="bg-white divide-y divide-gray-200">
-                                <!-- Rows will be dynamically inserted here -->
-                            </tbody>
-                        </table>
+                <h2 class="text-2xl font-bold text-center mb-2 text-gray-900">Calculate the Cost for a Specific School</h2>
+                <p class="text-center text-gray-600 mb-6">Select a location to see the specific annual cost of sub scheduling.</p>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <!-- Navigation breadcrumbs -->
+                    <div id="breadcrumbs" class="flex items-center text-sm text-gray-500 mb-4"></div>
+                    
+                    <!-- Dynamic selection area -->
+                    <div id="selection-area" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <!-- Buttons will be dynamically inserted here -->
+                    </div>
+
+                    <!-- Results Display -->
+                    <div id="results-card" class="mt-8 bg-blue-50 p-6 rounded-lg border border-blue-200 hidden">
+                        <h3 class="text-xl font-bold text-blue-900" id="results-title"></h3>
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
+                            <div>
+                                <p class="text-sm text-blue-700">Median/Actual AP Salary</p>
+                                <p class="text-2xl font-bold text-blue-900" id="results-salary"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-blue-700">Estimated Annual Scheduling Cost</p>
+                                <p class="text-2xl font-bold text-blue-900" id="results-cost"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -72,58 +76,58 @@
 
     <footer class="bg-white mt-16">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
-            <p>&copy; 2025 Survey Analysis. For marketing purposes only.</p>
-            <p class="mt-1">Calculations are based on a 180-day school year and an assumed 2080-hour work year for salary conversion.</p>
+            <p>&copy; 2025 Lucid North LLC. For marketing purposes only.</p>
+            <p class="mt-1">Calculations are based on a 180-day school year and an assumed 230-day work year for salary conversion.</p>
         </div>
     </footer>
 
     <script>
         // --- DATA PREPARATION ---
         const rawSurveyData = [
-          {"state": "GA", "school_level": "Middle", "student_count": "630", "teacher_count": "60", "absence_management_system": "RedRover (formerly Frontline) ", "substitute_sourcing": "External Service", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "5 minutes ", "time_to_complete_friday": "15 minutes "},
-          {"state": "VA", "school_level": "Elementary", "student_count": "480", "teacher_count": "24", "absence_management_system": "SmartFind Express", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "30 minutes "},
-          {"state": "AK", "school_level": "Elementary", "student_count": "540", "teacher_count": "30", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "40 minutes", "time_to_complete_friday": "50 minutes"},
-          {"state": "MD", "school_level": "Middle", "student_count": "800", "teacher_count": "100", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "30 minutes ", "time_to_complete_friday": "44 minutes "},
-          {"state": "TX", "school_level": "High", "student_count": "2820", "teacher_count": "220", "absence_management_system": "Frontlone", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "45", "time_to_complete_friday": "45"},
-          {"state": "RI", "school_level": "Middle", "student_count": "600", "teacher_count": "60", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "10 minutes ", "time_to_complete_friday": "20 minutes"},
-          {"state": "CA", "school_level": "High", "student_count": "1400", "teacher_count": "25", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "10min", "time_to_complete_friday": "15min"},
-          {"state": "TN", "school_level": "Middle", "student_count": "650", "teacher_count": "40", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "10 minutes ", "time_to_complete_friday": "20 minutes "},
-          {"state": "WI", "school_level": "Middle", "student_count": "725", "teacher_count": "75", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "20", "time_to_complete_friday": "45"},
-          {"state": "AZ", "school_level": "Elementary", "student_count": "750", "teacher_count": "40", "absence_management_system": "Frontline", "substitute_sourcing": "Combination", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "10", "time_to_complete_friday": "25"},
-          {"state": "OH", "school_level": "High", "student_count": "350", "teacher_count": "30", "absence_management_system": "N/A", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "30 minutes"},
-          {"state": "CA", "school_level": "High", "student_count": "75", "teacher_count": "16", "absence_management_system": "None", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "30 minutes"},
-          {"state": "NY", "school_level": "Elementary", "student_count": "420", "teacher_count": "30", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Separate Locations", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "25 minutes"},
-          {"state": "FL", "school_level": "High", "student_count": "250", "teacher_count": "30", "absence_management_system": "None", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Multiple Systems", "scheduling_method": "Combination", "time_to_complete_tuesday": "30-45 minutes", "time_to_complete_friday": "30-45 minutes"},
-          {"state": "MA", "school_level": "High", "student_count": "950", "teacher_count": "70", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "45 minutes"},
-          {"state": "KY", "school_level": "Middle", "student_count": "825", "teacher_count": "40", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "10 minutes", "time_to_complete_friday": "15 minutes "},
-          {"state": "MO", "school_level": "High", "student_count": "1350", "teacher_count": "77", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "30 minutes"},
-          {"state": "CO", "school_level": "Middle", "student_count": "574", "teacher_count": "55", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Separate Locations", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "15 mins if there are not any unexpected absences with no subs.", "time_to_complete_friday": "45 mins."},
-          {"state": "AZ", "school_level": "High", "student_count": "2500", "teacher_count": "101", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Multiple Systems", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "45 minutesp"},
-          {"state": "IA", "school_level": "Elementary", "student_count": "320", "teacher_count": "25", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "45 minutes"},
-          {"state": "OH", "school_level": "Middle", "student_count": "600", "teacher_count": "50", "absence_management_system": "Frontline ", "substitute_sourcing": "Combination", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "SIS Feature", "time_to_complete_tuesday": "10 minutes max", "time_to_complete_friday": "10 minutes max "},
-          {"state": "WA", "school_level": "Middle", "student_count": "620", "teacher_count": "35", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Multiple Systems", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "45 minutes ", "time_to_complete_friday": "45 minutes "},
-          {"state": "MD", "school_level": "High", "student_count": "3000", "teacher_count": "174", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "30 minutes plus", "time_to_complete_friday": "45-60"},
-          {"state": "CT", "school_level": "Elementary", "student_count": "300", "teacher_count": "40", "absence_management_system": "", "substitute_sourcing": "Building List", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "10 minutes ", "time_to_complete_friday": "10 minutes "},
-          {"state": "MO", "school_level": "Elementary", "student_count": "500", "teacher_count": "28", "absence_management_system": "Frontline", "substitute_sourcing": "District Pool", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "10 minutes", "time_to_complete_friday": "20 minutes"},
-          {"state": "WA", "school_level": "High", "student_count": "1600", "teacher_count": "80", "absence_management_system": "Frontline ", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "10 min", "time_to_complete_friday": "15 min"},
-          {"state": "NC", "school_level": "High", "student_count": "1100", "teacher_count": "75", "absence_management_system": "", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "20 minutes ", "time_to_complete_friday": "40 minutes "},
-          {"state": "PA", "school_level": "High", "student_count": "300", "teacher_count": "33", "absence_management_system": "Frontline", "substitute_sourcing": "External Service", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "25 minutes"},
-          {"state": "TX", "school_level": "High", "student_count": "2800", "teacher_count": "225", "absence_management_system": "SmartFind Express", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Spreadsheet", "time_to_complete_tuesday": "15 minutes ", "time_to_complete_friday": "15 minutes"},
-          {"state": "OH", "school_level": "Middle", "student_count": "600", "teacher_count": "40", "absence_management_system": "", "substitute_sourcing": "District Pool", "internal_coverage": "Yes", "notification_system": "Centralized", "scheduling_method": "Combination", "time_to_complete_tuesday": "50 minutes ", "time_to_complete_friday": "1.5 hours"},
-          {"state": "AK", "school_level": "Elementary", "student_count": "2", "teacher_count": "2", "absence_management_system": "Genesis", "substitute_sourcing": "External Service", "internal_coverage": "No", "notification_system": "Centralized", "scheduling_method": "Pen and Paper", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "60"}
+          {"state": "GA", "school_level": "Middle", "time_to_complete_tuesday": "5 minutes ", "time_to_complete_friday": "15 minutes "},
+          {"state": "VA", "school_level": "Elementary", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "30 minutes "},
+          {"state": "AK", "school_level": "Elementary", "time_to_complete_tuesday": "40 minutes", "time_to_complete_friday": "50 minutes"},
+          {"state": "MD", "school_level": "Middle", "time_to_complete_tuesday": "30 minutes ", "time_to_complete_friday": "44 minutes "},
+          {"state": "TX", "school_level": "High", "time_to_complete_tuesday": "45", "time_to_complete_friday": "45"},
+          {"state": "NJ", "school_level": "High", "time_to_complete_tuesday": "10 minutes", "time_to_complete_friday": "15 minutes"},
+          {"state": "NJ", "school_level": "Middle", "time_to_complete_tuesday": "45 minutes", "time_to_complete_friday": "45 minutes"},
+          {"state": "WI", "school_level": "Middle", "time_to_complete_tuesday": "20", "time_to_complete_friday": "45"},
+          {"state": "AZ", "school_level": "Elementary", "time_to_complete_tuesday": "10", "time_to_complete_friday": "25"},
+          {"state": "OH", "school_level": "High", "time_to_complete_tuesday": "30 minutes", "time_to_complete_friday": "30 minutes"},
+          {"state": "CA", "school_level": "High", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "30 minutes"},
+          {"state": "NY", "school_level": "Elementary", "time_to_complete_tuesday": "15 minutes", "time_to_complete_friday": "25 minutes"},
+          {"state": "FL", "school_level": "High", "time_to_complete_tuesday": "30-45 minutes", "time_to_complete_friday": "30-45 minutes"},
+          {"state": "MA", "school_level": "High", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "45 minutes"},
+          {"state": "MO", "school_level": "High", "time_to_complete_tuesday": "20 minutes", "time_to_complete_friday": "30 minutes"},
+          {"state": "CO", "school_level": "Middle", "time_to_complete_tuesday": "15 mins", "time_to_complete_friday": "45 mins."},
+          {"state": "WA", "school_level": "Middle", "time_to_complete_tuesday": "45 minutes ", "time_to_complete_friday": "45 minutes "},
+          {"state": "MD", "school_level": "High", "time_to_complete_tuesday": "30 minutes plus", "time_to_complete_friday": "45-60"},
         ];
 
-        const salaryData = {
+        // Hierarchical location and salary data structure
+        const locationData = {
+            "NJ": {
+                "Central": {
+                    "Middlesex": {
+                        "South Brunswick": {
+                            "South Brunswick High School": { salary: 123029.79, level: "High" },
+                            "Crossroads North Middle School": { salary: 113139.30, level: "Middle" },
+                            "Crossroads South Middle School": { salary: 119510.89, level: "Middle" }
+                        }
+                    }
+                }
+            }
+        };
+
+        // State-level median salaries as a fallback
+        const stateMedianSalaries = {
             "AZ": { "Elementary": 81200, "Middle": 81200, "High": 75300 },
             "CA": { "Elementary": 82800, "Middle": 107500, "High": 107800 },
             "CO": { "Elementary": 86300, "Middle": 88900, "High": 88900 },
             "FL": { "Elementary": 62700, "Middle": 92500, "High": 81900 },
             "GA": { "Elementary": 70800, "Middle": 94300, "High": 92500 },
-            "IL": { "Elementary": 81300, "Middle": 82000, "High": 106200 },
             "MD": { "Elementary": 102400, "Middle": 108500, "High": 115000 },
             "MA": { "Elementary": 91600, "Middle": 106400, "High": 106400 },
-            "MI": { "Elementary": 73100, "Middle": 73700, "High": 73700 },
-            "MN": { "Elementary": 82100, "Middle": 105500, "High": 107300 },
             "NJ": { "Elementary": 85100, "Middle": 105900, "High": 111200 },
             "NY": { "Elementary": 91800, "Middle": 92500, "High": 113300 },
             "NC": { "Elementary": 76200, "Middle": 92900, "High": 99600 },
@@ -147,64 +151,88 @@
             const totalMinutes = numbers.map(n => parseFloat(n)).reduce((acc, val) => acc + val, 0);
             return totalMinutes / numbers.length;
         };
-
+        
         const processedData = rawSurveyData.map(d => ({
             state: d.state,
             level: d.school_level,
             time_fri: parseTime(d.time_to_complete_friday),
             time_tue: parseTime(d.time_to_complete_tuesday)
-        })).filter(d => d.time_tue !== null && d.time_fri !== null && d.state && d.level && salaryData[d.state]);
+        })).filter(d => d.time_tue !== null && d.time_fri !== null && d.state && d.level);
 
+        // --- UI AND CALCULATION LOGIC ---
+        
+        let currentPath = [];
+        const selectionArea = document.getElementById('selection-area');
+        const breadcrumbs = document.getElementById('breadcrumbs');
+        const resultsCard = document.getElementById('results-card');
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const tableBody = document.getElementById('cost-table-body');
-            const analysis = {};
-            let totalCost = 0;
-            let validEntries = 0;
+        const formatCurrency = (value) => `$${value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-            // Group data by state and school level
-            processedData.forEach(d => {
-                const key = `${d.state}-${d.level}`;
-                if (!analysis[key]) {
-                    analysis[key] = { state: d.state, level: d.level, tueTimes: [], friTimes: [] };
-                }
-                analysis[key].tueTimes.push(d.time_tue);
-                analysis[key].friTimes.push(d.time_fri);
+        const calculateCost = (salary, level) => {
+            const relevantData = processedData.filter(d => d.level === level);
+            if (relevantData.length === 0) return { cost: 0, tue: 0, fri: 0 };
+
+            const avgTue = relevantData.map(d => d.time_tue).reduce((a, b) => a + b, 0) / relevantData.length;
+            const avgFri = relevantData.map(d => d.time_fri).reduce((a, b) => a + b, 0) / relevantData.length;
+
+            const perDiemRate = salary / 230; // Based on 230 work days
+            const hourlyRate = perDiemRate / 8; // Assuming 8-hour day
+            
+            const weeklyMinutes = (avgTue * 4) + avgFri;
+            const weeklyHours = weeklyMinutes / 60;
+            const annualCost = weeklyHours * 36 * hourlyRate; // 180 days = 36 school weeks
+
+            return { cost: annualCost, tue: avgTue, fri: avgFri };
+        };
+
+        const updateResults = (title, salary, level) => {
+            const { cost, tue, fri } = calculateCost(salary, level);
+            document.getElementById('results-title').textContent = title;
+            document.getElementById('results-salary').textContent = formatCurrency(salary);
+            document.getElementById('results-cost').textContent = formatCurrency(cost);
+            resultsCard.classList.remove('hidden');
+        };
+
+        const renderSelections = () => {
+            selectionArea.innerHTML = '';
+            resultsCard.classList.add('hidden');
+            let currentLevelData = locationData;
+            for (const key of currentPath) {
+                currentLevelData = currentLevelData[key];
+            }
+
+            // Update breadcrumbs
+            breadcrumbs.innerHTML = '<button data-path-index="-1" class="hover:text-blue-600">Home</button>';
+            currentPath.forEach((segment, index) => {
+                breadcrumbs.innerHTML += `<span class="mx-2">/</span><button data-path-index="${index}" class="hover:text-blue-600">${segment.replace(/_/g, ' ')}</button>`;
             });
 
-            // Calculate costs and populate table
-            Object.values(analysis).forEach(group => {
-                const avgTue = group.tueTimes.reduce((a, b) => a + b, 0) / group.tueTimes.length;
-                const avgFri = group.friTimes.reduce((a, b) => a + b, 0) / group.friTimes.length;
-                
-                const salary = salaryData[group.state]?.[group.level];
-                if (!salary) return;
+            if (currentLevelData.salary) { // This is a school
+                updateResults(currentPath[currentPath.length - 1].replace(/_/g, ' '), currentLevelData.salary, currentLevelData.level);
+            } else { // This is a directory
+                Object.keys(currentLevelData).forEach(key => {
+                    const button = document.createElement('button');
+                    button.textContent = key.replace(/_/g, ' ');
+                    button.className = 'selection-button bg-white p-4 rounded-lg shadow-md text-gray-700 font-semibold hover:bg-blue-500 hover:text-white';
+                    button.onclick = () => {
+                        currentPath.push(key);
+                        renderSelections();
+                    };
+                    selectionArea.appendChild(button);
+                });
+            }
+        };
 
-                const hourlyRate = salary / 2080; // 40 hours/week * 52 weeks
-                const weeklyMinutes = (avgTue * 4) + avgFri;
-                const weeklyHours = weeklyMinutes / 60;
-                const annualCost = weeklyHours * 36 * hourlyRate; // 180 days = 36 school weeks
-
-                totalCost += annualCost;
-                validEntries++;
-
-                const row = `
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${group.state}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${group.level}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${salary.toLocaleString()}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${avgTue.toFixed(1)} min</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${avgFri.toFixed(1)} min</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-blue-700 bg-blue-50">$${annualCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
-
-            // Update summary card
-            const averageAnnualCost = totalCost / validEntries;
-            document.getElementById('average-cost').textContent = `$${averageAnnualCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        breadcrumbs.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const pathIndex = parseInt(e.target.dataset.pathIndex);
+                currentPath = currentPath.slice(0, pathIndex + 1);
+                renderSelections();
+            }
         });
+
+        document.addEventListener('DOMContentLoaded', renderSelections);
+
     </script>
 
 </body>
