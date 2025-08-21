@@ -132,39 +132,17 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16 fade-in">
                     <h2 class="text-3xl md:text-4xl font-bold text-white">Why Use Harry Llama?</h2>
-                    <p class="text-gray-400 mt-4 max-w-3xl mx-auto">Your job is about students, not spreadsheets. Put time where it counts.</p>
+                    <p class="text-gray-400 mt-4 max-w-3xl mx-auto">Put time where it counts—back with your students and staff.</p>
                     <div class="w-24 h-1 bg-[#1996A3] mx-auto mt-4"></div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center fade-in-delay">
-                    <!-- Stat Card 1 -->
-                    <div class="bg-[#2D3748]/50 p-8 rounded-xl shadow-2xl">
-                        <h3 class="text-4xl font-bold text-[#38A2B8]">125+</h3>
-                        <p class="text-lg font-semibold text-white mt-2">Hours Per Year</p>
-                        <p class="text-gray-400 mt-1">Reclaimed by automating daily sub-puzzles.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 fade-in-delay items-center">
+                    <!-- Image 1 -->
+                    <div class="flex justify-center">
+                        <img src="images/HL_one_page_APs.png" alt="Harry Llama benefits for Assistant Principals" class="rounded-lg shadow-2xl max-w-full h-auto">
                     </div>
-                    <!-- Stat Card 2 -->
-                    <div class="bg-[#2D3748]/50 p-8 rounded-xl shadow-2xl">
-                        <h3 class="text-4xl font-bold text-[#38A2B8]">$5,000+</h3>
-                        <p class="text-lg font-semibold text-white mt-2">in AP Time Annually</p>
-                        <p class="text-gray-400 mt-1">Freed up to focus on students and instruction.</p>
-                    </div>
-                    <!-- Stat Card 3 -->
-                    <div class="bg-[#2D3748]/50 p-8 rounded-xl shadow-2xl">
-                        <h3 class="text-2xl font-bold text-white">No More</h3>
-                        <p class="text-lg font-semibold text-white mt-2">Early-Morning Chaos</p>
-                        <p class="text-gray-400 mt-1">Wake up and it's handled, reliably and automatically.</p>
-                    </div>
-                </div>
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                     <!-- Feature Card 1 -->
-                    <div class="bg-[#2D3748]/50 p-6 rounded-xl shadow-lg">
-                        <h4 class="text-xl font-bold text-white">Focus on What Matters</h4>
-                        <p class="text-gray-300 mt-2">Use your freed-up time to welcome students, observe instruction, and support teachers while the system quietly manages sub coverage in the background.</p>
-                    </div>
-                     <!-- Feature Card 2 -->
-                    <div class="bg-[#2D3748]/50 p-6 rounded-xl shadow-lg">
-                        <h4 class="text-xl font-bold text-white">Intuitive & Smart</h4>
-                        <p class="text-gray-300 mt-2">An intuitive dashboard requires no training. Auto-generate sub plans, customize schedules to match your school, and get real-time updates on unfilled periods.</p>
+                    <!-- Image 2 -->
+                    <div class="flex justify-center">
+                        <img src="images/hl_one-page_second.png" alt="How Harry Llama works" class="rounded-lg shadow-2xl max-w-full h-auto">
                     </div>
                 </div>
             </div>
@@ -204,16 +182,11 @@
                 </div>
                 
                 <div id="it" class="tab-content hidden fade-in-delay">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                         <div class="text-center lg:text-left">
                             <h3 class="text-2xl font-bold text-white mb-4">Core Architecture</h3>
                              <p class="text-gray-300 mb-6">Built on a reliable and scalable stack using Flask, SQLAlchemy, and OpenAI's GPT-4o API for powerful AI integration.</p>
                             <img src="images/core_architecture_flowchart.png" alt="Core Architecture Diagram" class="bg-gray-200 rounded-lg p-4 w-full shadow-lg">
-                        </div>
-                        <div class="text-center lg:text-left">
-                            <h3 class="text-2xl font-bold text-white mb-4">Data Workflow</h3>
-                             <p class="text-gray-300 mb-6">Data flows from PDF absence reports through our OpenAI integration, which returns structured JSON for populating the database and generating coverage plans.</p>
-                            <img src="images/data_workflow_flowchart.png" alt="Data Workflow Flowchart" class="bg-gray-200 rounded-lg p-4 w-full shadow-lg">
                         </div>
                         <div class="text-center lg:text-left">
                             <h3 class="text-2xl font-bold text-white mb-4">Security Posture</h3>
@@ -272,6 +245,10 @@
             document.getElementById(tabName).style.display = "block";
             event.currentTarget.className += " active";
         }
+        // Set the default tab to be visible on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('leadership').style.display = 'block';
+        });
     </script>
 
 </body>
