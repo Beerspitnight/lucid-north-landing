@@ -48,7 +48,7 @@
 
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <!-- Navigation breadcrumbs -->
-                    <div id="breadcrumbs" class="flex items-center text-sm text-gray-500 mb-4"></div>
+                    <div id="breadcrumbs" class="flex items-center text-sm text-gray-500 mb-4 flex-wrap"></div>
                     
                     <!-- Dynamic selection area -->
                     <div id="selection-area" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -60,7 +60,7 @@
                         <h3 class="text-xl font-bold text-blue-900" id="results-title"></h3>
                         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
                             <div>
-                                <p class="text-sm text-blue-700">Median/Actual AP Salary</p>
+                                <p class="text-sm text-blue-700">Actual AP Salary</p>
                                 <p class="text-2xl font-bold text-blue-900" id="results-salary"></p>
                             </div>
                             <div>
@@ -107,36 +107,85 @@
         // Hierarchical location and salary data structure
         const locationData = {
             "NJ": {
+                "North": {
+                    "Bergen": {
+                        "Fair Lawn": {
+                            "Fair Lawn High School (AP 1)": { salary: 155353, level: "High" },
+                            "Fair Lawn High School (AP 2)": { salary: 153596, level: "High" },
+                            "Memorial Middle School": { salary: 169542, level: "Middle" },
+                            "Thomas Jefferson Middle School": { salary: 159162, level: "Middle" }
+                        }
+                    },
+                    "Essex": {
+                        "Livingston": {
+                            "Livingston Middle School": { salary: 113125, level: "Middle" }
+                        }
+                    }
+                },
                 "Central": {
                     "Middlesex": {
                         "South Brunswick": {
-                            "South Brunswick High School": { salary: 123029.79, level: "High" },
-                            "Crossroads North Middle School": { salary: 113139.30, level: "Middle" },
-                            "Crossroads South Middle School": { salary: 119510.89, level: "Middle" }
+                            "South Brunswick High School": { salary: 123030, level: "High" },
+                            "Crossroads North Middle School": { salary: 113139, level: "Middle" },
+                            "Crossroads South Middle School": { salary: 119511, level: "Middle" }
+                        }
+                    },
+                    "Monmouth": {
+                        "Asbury Park": {
+                            "Asbury Park High School": { salary: 145955, level: "High" },
+                            "Asbury Park Middle School": { salary: 141405, level: "Middle" }
+                        },
+                        "Eatontown": {
+                            "Memorial Middle School": { salary: 115316, level: "Middle" }
+                        },
+                        "Freehold Regional": {
+                            "Freehold Township High School": { salary: 163800, level: "High" },
+                            "Colts Neck High School": { salary: 160800, level: "High" },
+                            "Manalapan High School": { salary: 160800, level: "High" },
+                            "Marlboro High School": { salary: 157800, level: "High" }
+                        },
+                        "Holmdel": {
+                            "Holmdel High School": { salary: 141000, level: "High" },
+                            "William R. Satz School (MS)": { salary: 136000, level: "Middle" }
+                        },
+                        "Howell": {
+                            "Howell High School": { salary: 152000, level: "High" },
+                            "Howell Middle School North": { salary: 134650, level: "Middle" },
+                            "Howell Middle School South": { salary: 134650, level: "Middle" }
+                        },
+                        "Keyport": {
+                            "Keyport High School": { salary: 105750, level: "High" }
+                        },
+                        "Long Branch": {
+                            "Long Branch High School": { salary: 154127, level: "High" },
+                            "Long Branch Middle School": { salary: 149022, level: "Middle" }
+                        },
+                        "Manalapan-Englishtown": {
+                            "Manalapan-Englishtown Middle School": { salary: 146812, level: "Middle" }
+                        },
+                        "Marlboro": {
+                            "Marlboro Middle School": { salary: 154499, level: "Middle" }
+                        },
+                        "Matawan-Aberdeen": {
+                            "Matawan Regional High School": { salary: 153490, level: "High" }
+                        },
+                        "Middletown": {
+                            "Middletown High School North": { salary: 150571, level: "High" },
+                            "Middletown High School South": { salary: 150571, level: "High" }
+                        },
+                        "Red Bank Borough": {
+                            "Red Bank Middle School": { salary: 137700, level: "Middle" }
+                        },
+                        "Rumson-Fair Haven": {
+                            "Rumson-Fair Haven Regional HS": { salary: 165373, level: "High" }
+                        },
+                        "Wall": {
+                            "Wall High School": { salary: 148000, level: "High" },
+                            "Wall Intermediate School": { salary: 140000, level: "Middle" }
                         }
                     }
                 }
             }
-        };
-
-        // State-level median salaries as a fallback
-        const stateMedianSalaries = {
-            "AZ": { "Elementary": 81200, "Middle": 81200, "High": 75300 },
-            "CA": { "Elementary": 82800, "Middle": 107500, "High": 107800 },
-            "CO": { "Elementary": 86300, "Middle": 88900, "High": 88900 },
-            "FL": { "Elementary": 62700, "Middle": 92500, "High": 81900 },
-            "GA": { "Elementary": 70800, "Middle": 94300, "High": 92500 },
-            "MD": { "Elementary": 102400, "Middle": 108500, "High": 115000 },
-            "MA": { "Elementary": 91600, "Middle": 106400, "High": 106400 },
-            "NJ": { "Elementary": 85100, "Middle": 105900, "High": 111200 },
-            "NY": { "Elementary": 91800, "Middle": 92500, "High": 113300 },
-            "NC": { "Elementary": 76200, "Middle": 92900, "High": 99600 },
-            "OH": { "Elementary": 79700, "Middle": 95200, "High": 104200 },
-            "PA": { "Elementary": 84600, "Middle": 97300, "High": 98400 },
-            "TX": { "Elementary": 78100, "Middle": 95300, "High": 102100 },
-            "VA": { "Elementary": 83100, "Middle": 98400, "High": 108600 },
-            "WA": { "Elementary": 95000, "Middle": 95800, "High": 95800 },
-            "WI": { "Elementary": 84600, "Middle": 96100, "High": 110600 }
         };
 
         const parseTime = (timeStr) => {
@@ -186,7 +235,7 @@
         };
 
         const updateResults = (title, salary, level) => {
-            const { cost, tue, fri } = calculateCost(salary, level);
+            const { cost } = calculateCost(salary, level);
             document.getElementById('results-title').textContent = title;
             document.getElementById('results-salary').textContent = formatCurrency(salary);
             document.getElementById('results-cost').textContent = formatCurrency(cost);
@@ -202,9 +251,9 @@
             }
 
             // Update breadcrumbs
-            breadcrumbs.innerHTML = '<button data-path-index="-1" class="hover:text-blue-600">Home</button>';
+            breadcrumbs.innerHTML = '<button data-path-index="-1" class="hover:text-blue-600 p-1">Home</button>';
             currentPath.forEach((segment, index) => {
-                breadcrumbs.innerHTML += `<span class="mx-2">/</span><button data-path-index="${index}" class="hover:text-blue-600">${segment.replace(/_/g, ' ')}</button>`;
+                breadcrumbs.innerHTML += `<span class="mx-2">/</span><button data-path-index="${index}" class="hover:text-blue-600 p-1">${segment.replace(/_/g, ' ')}</button>`;
             });
 
             if (currentLevelData.salary) { // This is a school
@@ -213,7 +262,7 @@
                 Object.keys(currentLevelData).forEach(key => {
                     const button = document.createElement('button');
                     button.textContent = key.replace(/_/g, ' ');
-                    button.className = 'selection-button bg-white p-4 rounded-lg shadow-md text-gray-700 font-semibold hover:bg-blue-500 hover:text-white';
+                    button.className = 'selection-button bg-white p-4 rounded-lg shadow-md text-gray-700 font-semibold hover:bg-blue-500 hover:text-white text-left';
                     button.onclick = () => {
                         currentPath.push(key);
                         renderSelections();
