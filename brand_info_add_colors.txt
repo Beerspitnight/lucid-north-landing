@@ -1,0 +1,106 @@
+
+
+
+🔤 Font
+Small headline Helvetica Bold 102
+Large headline - Helvetica Bold 187
+Harry Llama - Helvetica Bold 104
+Intelligent Scheduler 
+
+DARK ORANGE E06B1E
+
+Harry Logo - 900px
+
+Primary (orange text): Montserrat Bold (Google Fonts, free) — if not available, use Arial Bold.
+
+Secondary (gray text): Montserrat SemiBold or Arial Regular.
+
+📐 Text Settings in GIMP
+
+For Main Headline (orange, “DAILY SUBSTITUTE COVERAGE – DONE IN SECONDS”):
+
+Font size: 150 pt
+
+Letter spacing (Tracking): +15
+
+Line spacing: 0.9 (slightly compressed)
+
+Color: #EF8A30
+
+For Subheadline (gray, “HARRY LLAMA – THE INTELLIGENT SCHEDULER”):
+
+Font size: 75 pt
+
+Letter spacing (Tracking): +10
+
+Line spacing: 1.0 (normal)
+
+Color: #888888
+
+📏 Alignment & Layout
+
+Text alignment: Left-aligned.
+
+Positioning:
+
+Place the main headline starting about 90px from the right edge of the llama’s glasses.
+
+Keep vertical spacing between the orange headline and gray subheadline at around 40px.
+
+Margins: At least 100px from the right edge of the canvas to avoid cramped look.
+
+⚡ Bonus Tip
+
+If you want to reuse this a lot, set up a Text Template layer group in GIMP:
+
+One layer for “Headline” with the above settings.
+
+Harry Llama Brand Colors:
+- Orange: #EF8A30
+- Purple: #4A3F7A
+- Accent Orange: #E06B1E
+A Lucid North Solution - 9d9d9d
+
+Lucid North Brand Colors:
+- Navy: #1F2437
+- Teal: #88A2B8
+
+Font
+
+Font family: The style looks like Helvetica Bold or Arial Bold, which are clean sans-serif fonts.
+
+If you want a closer, slightly more geometric feel, try Montserrat Bold or Open Sans Extra Bold (both are free on Google Fonts).
+
+Size
+
+The exact size will depend on your canvas size, but for a 1920×1080 (16:9) canvas:
+
+Main headline (orange text): 191pt. Helvetica Bold
+
+Subheadline (gray text): around 104 pt. SORA BOLD
+
+Harry Llama - Sora Bold 120
+The Intelligent - Sora Semi Bold - 72
+
+Scale proportionally if your canvas is different.
+
+Spacing
+
+Letter spacing (tracking): Slightly expanded, about +10 to +20 in GIMP’s text properties.
+
+Line spacing: Tight, so the lines stack close together. Around 0.9–1.0× the font size.
+
+Color
+
+Orange: #EF8A30 (matches Harry Llama’s brand orange).
+
+Gray (subheadline): A neutral medium gray, around #888888 or #A0A0A0.
+
+Alignment
+
+Left aligned to the logo, not centered.
+
+Keep a clean margin between the llama’s right side and the text (about 80–120px).
+
+One layer for “Subheadline” with its settings.
+Then you just duplicate the group for new promos.

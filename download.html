@@ -1,0 +1,85 @@
+<!-- File: lucid-north-landing/download.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download | Harry Llama - The Intelligent Scheduler</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="dist/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800">
+    <header class="bg-[#1F2437]/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="content-container">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <a href="/">
+                        <img src="images/hl_transparent.png" alt="Harry Llama - The Intelligent Scheduler" class="h-8 mr-3">
+                    </a>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="/#home" class="nav-link">Home</a>
+                    <a href="/#about" class="nav-link">About</a>
+                    <a href="/#why" class="nav-link">Why Harry Llama?</a>
+                    <a href="/results" class="nav-link">The Numbers</a>
+                    <a href="/#how" class="nav-link">How It Works</a>
+                    <a href="/#signup" class="btn-primary">Sign Up</a>
+                </nav>
+                <div class="md:hidden">
+                    <a href="/#signup" class="btn-primary">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="py-20 md:py-32 flex flex-col items-center justify-center min-h-[70vh]">
+            <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 flex flex-col items-center">
+                <img src="images/hl_logo_hor_blk_tag.png" alt="Harry Llama" class="h-20 mb-6">
+                <h2 class="text-3xl font-bold text-[#38A2B8] mb-4 text-center">Harry Llama - The Intelligent Scheduler</h2>
+                <h3 class="text-lg text-gray-700 mb-6 text-center">Input license number to download Harry. Select "Sign Up" if your school/district does not have a Harry Llama license.</h3>
+                <form class="w-full space-y-6" action="download_error.html" method="get">
+                    <div>
+                        <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+                        <input type="text" id="username" name="username" required class="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border-2 border-[#38A2B8] focus:outline-none focus:ring-2 focus:ring-[#38A2B8]">
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                        <input type="password" id="password" name="password" required class="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border-2 border-[#38A2B8] focus:outline-none focus:ring-2 focus:ring-[#38A2B8]">
+                    </div>
+                    <div>
+                        <label for="license" class="block text-sm font-semibold text-gray-700 mb-2">License Number</label>
+                        <input type="text" id="license" name="license" required class="w-full px-4 py-3 rounded-lg bg-gray-100 text-gray-800 border-2 border-[#38A2B8] focus:outline-none focus:ring-2 focus:ring-[#38A2B8]">
+                    </div>
+                    <button type="submit" class="w-full bg-[#1996A3] hover:bg-[#38A2B8] text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg">Login & Download</button>
+                </form>
+                <div class="mt-10 text-center">
+                    <p class="text-base text-gray-700 max-w-md mx-auto">
+                        Harry Llama- The Intelligent Scheduler is an AI-powered substitute coverage scheduler that transforms hours of daily administrative work into minutes. Using its intelligent engine, Harry analyzes daily absence reports and master schedules to automatically generate an optimized coverage plan based on a 4-tier priority system. Reclaim your day and solve the daily substitute scramble with a smarter solution for your school.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-[#1F2437] py-12 mt-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-8">
+                <div class="text-center md:text-left">
+                    <img src="images/ln_horizontal_LIGHT_logo.png" alt="Lucid North Logo" class="h-12 mx-auto md:mx-0 mb-4">
+                    <p class="text-gray-400 text-sm">Smarter Solutions ✦ Smarter Schools</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <img src="images/hl_logo_hor_blk_tag.png" alt="Harry Llama - The Intelligent Scheduler" class="h-16 mx-auto md:ml-auto md:mr-0">
+                    <p class="text-gray-500 text-xs mt-2">A Lucid North Solution</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Lucid North, LLC. All Rights Reserved. | Harry Llama is a Lucid North Solution</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
