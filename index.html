@@ -3,176 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucid North | Harry Llama Intelligent Scheduler</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Sora for headings, Inter for body text -->
+    <title>Lucid North | Smarter Solutions ✶ Smarter Schools</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&display=swap" rel="stylesheet">
+
+     <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YFXKM166TZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YFXKM166TZ');
+    </script>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MHHLMPTX');</script>
-    <!-- End Google Tag Manager -->
-
-    <style>
-        /* Applying the custom fonts */
-        body {
-            font-family: 'Inter', sans-serif;
-            /* Using the dark slate color from the brand guide for the background */
-            background-color: #1F2437; 
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Sora', sans-serif;
-        }
-        /* Enable smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-        /* Simple animation for fade-in effect on load */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in {
-            animation: fadeIn 1s ease-out forwards;
-        }
-        .fade-in-delay {
-            animation: fadeIn 1s 0.5s ease-out forwards;
-            opacity: 0; /* Start as invisible */
-        }
-    </style>
 </head>
-<body class="text-gray-200">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MHHLMPTX"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+<body>
 
-    <!-- Header -->
-    <header class="bg-[#1F2437]/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- Lucid North Logo -->
-            <div class="flex items-center">
-                 <!-- Main Lucid North Logo -->
-                <img src="https://i.imgur.com/YJs8BK1.png" alt="Lucid North Logo" class="h-10 mr-3">
-            </div>
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="#home" class="hover:text-[#38A2B8] transition-colors duration-300">Home</a>
-                <a href="#about" class="hover:text-[#38A2B8] transition-colors duration-300">About</a>
-                <a href="https://harryllama.lucid-north.com" class="hover:text-[#38A2B8] transition-colors duration-300" target="_blank" rel="noopener">Meet Harry Llama</a>
-                <a href="#signup" class="bg-[#1996A3] hover:bg-[#38A2B8] text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 shadow-lg">
-                    Sign Up
-                </a>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <!-- Use an appropriate logo file path -->
+                <img src="images/ln_new_logo_ds.png" alt="Lucid North Logo">
+            </a>
+            <nav>
+                <a href="#solutions">Solutions</a>
+                <a href="#about">About Us</a>
+                <a href="#research">The Research</a>
+                <a href="#contact">Contact</a>
+                <a href="https://blog.lucid-north.com" target="_blank" rel="noopener noreferrer">The Blog</a>
             </nav>
-            <div class="md:hidden">
-                <a href="#signup" class="bg-[#1996A3] hover:bg-[#38A2B8] text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 shadow-lg">
-                    Sign Up
-                </a>
-            </div>
+            <a href="#demo" class="btn btn-primary">Request a Demo</a>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main>
 
-        <!-- Hero Section -->
-        <section id="home" class="relative h-screen flex items-center justify-center text-center text-white bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1551590192-8070a16d9ba6?q=80&w=2574&auto=format&fit=crop');">
-            <!-- Dark overlay for better text readability -->
-            <div class="absolute inset-0 bg-black/60"></div>
-            
-            <div class="relative z-10 px-4 fade-in">
-                <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4">Harry Llama</h1>
-                <h2 class="text-2xl md:text-4xl font-semibold text-gray-300 mb-2">The Intelligent Scheduler</h2>
-                <p class="text-lg md:text-xl text-[#38A2B8] font-bold mb-6">A Lucid North Solution</p>
-                
-                <p class="max-w-3xl mx-auto text-lg md:text-2xl mb-8 leading-relaxed">
-                   An intelligent substitute coverage scheduler. Create coverage in minutes. <span class="font-bold">Reclaim your day.</span>
-                </p>
-                <p class="max-w-2xl mx-auto text-md md:text-lg text-gray-300 mb-10">
-                    School schedules are complex, not complicated. Let Harry Llama solve your 180-day morning puzzle while you get a cup of coffee.
-                </p>
-                
-                <a href="#signup" class="bg-[#1996A3] hover:bg-[#38A2B8] text-white font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-xl">
-                    Sign Up for a Harry Llama Demo
-                </a>
+        <section class="hero">
+            <div class="container">
+                <h1>From Morning Chaos to Campus Clarity.</h1>
+                <p>Lucid North provides intelligent, automated solutions that empower school administrators and give them back their day.</p>
+                <a href="#demo" class="btn btn-primary">Request a Demo</a>
+                <a href="#solutions" class="btn btn-secondary">View Our Solutions</a>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="py-20 md:py-32">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 fade-in">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white">About Harry Llama Intelligent Scheduler</h2>
-                    <div class="w-24 h-1 bg-[#1996A3] mx-auto mt-4"></div>
+        <!-- <section class="social-proof">
+            <div class="container">
+                <div class="logos">
+                    <img src="https://via.placeholder.com/150x40/ccc/fff?text=District+One" alt="School District Logo">
+                    <img src="https://via.placeholder.com/150x40/ccc/fff?text=Academy+Group" alt="School District Logo">
+                    <img src="https://via.placeholder.com/150x40/ccc/fff?text=Public+Schools" alt="School District Logo">
+                    <img src="https://via.placeholder.com/150x40/ccc/fff?text=Education+Trust" alt="School District Logo">
                 </div>
+            </div>
+        </section> -->
 
-                <!-- 2x2 Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 fade-in-delay">
-                    
-                    <!-- Card 1: About Lucid North -->
-                    <div class="bg-[#2D3748]/50 p-8 rounded-xl shadow-2xl flex flex-col items-center text-center">
-                        <!-- About Us Lucid North Logo -->
-                        <img src="https://i.imgur.com/oEwu1xp.png" alt="Lucid North Logo" class="h-16 mb-6">
-                        <h3 class="text-2xl font-bold text-white mb-4">About Lucid North</h3>
-                        <p class="text-gray-300 leading-relaxed">
-                            Lucid North is an education-focused technology firm dedicated to building intelligent, human-centered solutions. We believe that the right technology can foster better relationships and create clarity in complex environments. Our commitment is to quality, integrity, and innovative problem-solving.
-                        </p>
+        <section class="problem-solution">
+            <div class="container">
+                <div class="grid">
+                    <div>
+                        <h3>The Daily Administrative Burden</h3>
+                        <p>Last-minute coverage, manual data entry, and communication gaps create a daily scramble, pulling focus from what truly matters: the students.</p>
                     </div>
-
-                    <!-- Card 2: Placeholder for future content or another aspect -->
-                     <div class="bg-[#2D3748]/50 p-8 rounded-xl shadow-2xl flex flex-col items-center text-center">
-                        <svg class="w-16 h-16 mb-6 text-[#1996A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        <h3 class="text-2xl font-bold text-white mb-4">Our Vision</h3>
-                        <p class="text-gray-300 leading-relaxed">
-                           To empower organizations by transforming their most challenging operational puzzles into simple, elegant workflows. We build tools that give leaders their time back, allowing them to focus on what truly drives growth and success: their people.
-                        </p>
-                    </div>
-                    
-                    <!-- Card 3: Harry Llama Logo -->
-                    <div class="bg-[#2D3748]/50 p-8 rounded-xl shadow-2xl flex flex-col items-center justify-center">
-                        <!-- About Us - Harry Llama Logo -->
-                         <img src="https://i.imgur.com/4IDPlx8.png" alt="Harry Llama Logo" class="max-h-48">
-                    </div>
-
-                    <!-- Card 4: About Harry Llama -->
-                    <div class="bg-[#2D3748]/50 p-8 rounded-xl shadow-2xl flex flex-col items-center text-center">
-                         <svg class="w-16 h-16 mb-6 text-[#1996A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                        <h3 class="text-2xl font-bold text-white mb-4">About Harry Llama</h3>
-                        <p class="text-gray-300 leading-relaxed">
-                           Harry Llama is the first flagship solution from Lucid North. It's an AI-powered scheduler designed specifically for the unique complexities of K-12 schools. By automating substitute assignments, Harry eliminates hours of daily administrative work, prevents burnout, and provides principals with invaluable data-driven insights.
-                        </p>
+                    <div>
+                        <h3>A Smarter, More Lucrative Approach</h3>
+                        <p>We leverage smart technology to create seamless workflows, provide clear insights, and restore focus to education, turning chaos into clarity.</p>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <!-- Sign Up Section -->
-        <section id="signup" class="bg-[#1F2437] py-20 md:py-24">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 fade-in">Stay in the Loop</h2>
-                <p class="text-gray-300 max-w-2xl mx-auto mb-10 fade-in">
-                     Sign up for a 15-minute demo and see how Harry Llama can turn your mornings from chaos to calm.
-                </p>
-                <!-- Zoho Embedded Form -->
-                <div class="max-w-xl mx-auto fade-in-delay">
-                    <iframe aria-label="Harry Llama Demo Signup" frameborder="0" style="height:600px;width:100%;border:none;" src="https://forms.zohopublic.com/adminlucid1/form/EventRegistration/formperma/fKhsmoSdPCn-uA-agSnCiAxwFc7j2NyKDbYmjAGiWHc"></iframe>
+
+        <section id="solutions" class="solutions">
+            <div class="container">
+                <h2>Our Solutions</h2>
+                <div class="card">
+                    <h3>Harry Llama</h3>
+                    <p>The intelligent substitute and absence management platform that automates your morning rush.</p>
+                    <a href="https://harryllama.lucid-north.com" class="btn btn-secondary" style="margin-top: 20px; background-color: var(--orange); color: #fff; border: none;" target="_blank" rel="noopener noreferrer">Explore Harry Llama</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits">
+            <div class="container">
+                <h2>The Lucid North Advantage</h2>
+                <div class="grid">
+                    <div class="benefit-item">
+                        <h3>Reclaim 90+ Hours</h3>
+                        <p>Per school year by eliminating manual scheduling tasks.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>100% Coverage Accuracy</h3>
+                        <p>Ensure every absence is covered intelligently and compliantly.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h3>Boost Staff Morale</h3>
+                        <p>Provide a fair, transparent, and stress-free process for everyone.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section id="research" class="research">
+            <div class="container">
+                <h2>The Research</h2>
+                <p>Our research shows that automating manual scheduling and communications reduces administrative overhead and improves coverage accuracy. We aggregate district data to surface actionable insights and evaluate outcomes across implementation studies.</p>
+                <p>If you'd like to see the data and findings, request a demo and we'll walk you through our research-backed approach.</p>
+                <a href="#demo" class="btn btn-primary">Request a Demo</a>
+            </div>
+        </section>
+
+        <section class="testimonial">
+            <div class="container">
+                <blockquote>"Harry Llama gave me back my mornings. The time I used to spend scrambling for subs is now spent welcoming students into the building. It's a game-changer."</blockquote>
+                <p class="author">&mdash; Former High School Assistant Principal</p>
+            </div>
+        </section>
+
+        <section class="cta-signup">
+            <div class="container">
+                <h2>Smarter Solutions, Straight to Your Inbox.</h2>
+                <p>Sign up to get the latest in EdTech innovation and Lucid North updates.</p>
+                <!-- Subscribe CTA: link to company blog signup portal -->
+                <div class="subscribe-inline">
+                    <input type="email" placeholder="Enter your email address" aria-label="Email address (visual only)">
+                    <a href="https://blog.lucid-north.com/#/portal/signup" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Subscribe</a>
+                </div>
+            </div>
+        </section>
+        <!-- About Us Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2>About Us</h2>
+                <p>Lucid North builds intelligent, human-centered software that streamlines school operations so administrators can focus on students. We combine deep education sector experience with modern product design to deliver tools that reduce administrative burden, increase transparency, and improve outcomes. Our small, dedicated team works closely with districts to build solutions that actually fit the way schools operate.</p>
+                <p>Learn more about our mission, our values, and the people behind Lucid North — we believe better tools lead to better schools.</p>
+            </div>
+        </section>
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Contact</h2>
+                <p>For general inquiries, partnership opportunities, or press, email us at <a href="mailto:admin@lucid-north.com">admin@lucid-north.com</a></p>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="max-w-xl mx-auto fade-in-delay">
+                <h2>Ready to Bring Clarity to Your School?</h2>
+                <p>See how Lucid North can transform your daily operations in a brief, personalized demo.</p>
+                 <!-- Zoho Form Embed -->
+                <div id="demo">
+                    <iframe aria-label='Schedule a Demo of Harry Llama' style="height:400px;width:100%;border:none;" src='https://forms.zohopublic.com/adminlucid1/form/ProductEnquiry1/formperma/3HXAs7BzgzgM38Q_ZqnonNVNBbCXalU8AfqCa7Nl0bw'></iframe>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-[#181C2B] py-6">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <p>&copy; 2025 Lucid North, LLC. All Rights Reserved.</p>
+    <footer>
+        <div class="container">
+            <div class="grid">
+                <div>
+                    <h4>Lucid North</h4>
+                    <p style="color: var(--light-gray);">Smarter Solutions<br>Smarter Schools</p>
+                </div>
+                <div>
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="https://harryllama.lucid-north.com" target="_blank" rel="noopener noreferrer">Harry Llama</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#research">The Research</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="https://blog.lucid-north.com" target="_blank" rel="noopener noreferrer">The Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025-2026 Lucid North, LLC. All Rights Reserved.
+            </div>
         </div>
     </footer>
 
